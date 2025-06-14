@@ -33,8 +33,8 @@ export default function BreedsPage() {
   const filtered = breeds.filter((b) => b.includes(search.toLowerCase()));
 
   return (
-    <main className="max-w-2xl mx-auto py-4 px-4">
-      <div className="mb-4">
+    <main className="max-w-2xl mx-auto min-h-screen flex flex-col">
+      <div className="m-4">
         <BreedSearchBox
           value={search}
           onChange={setSearch}
