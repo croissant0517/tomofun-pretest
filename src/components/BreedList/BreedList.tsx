@@ -45,14 +45,13 @@ const BreedItem = ({
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
-      revalidateIfStale: false,
     }
   );
   const imageUrl = data?.message;
 
   return (
     <li
-      className="px-4 py-3 cursor-pointer hover:bg-blue-50 transition flex items-center gap-4"
+      className="px-4 py-3 cursor-pointer hover:bg-foreground hover:text-background transition flex items-center gap-4 border-b border-gray-200 last:border-b-0"
       onClick={() => onSelect(breed)}
     >
       {imageUrl && (
@@ -61,7 +60,7 @@ const BreedItem = ({
           alt={breed}
           width={60}
           height={60}
-          className="w-15 h-15 rounded-full"
+          className="w-15 h-15 rounded-full object-cover"
         />
       )}
       {breed}

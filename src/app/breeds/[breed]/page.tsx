@@ -1,35 +1,48 @@
-'use client';
+"use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import useSWR from 'swr';
-import BreedImages from '@/components/BreedImages';
-import CarouselModal from '@/components/CarouselModal';
+import React, { useState } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import BreedImages from "@/components/BreedImages/BreedImages";
+import CarouselModal from "@/components/CarouselModal/CarouselModal";
 
-const fetcher = (url: string) => fetch(url).then(res => res.json());
+import ChevronLeftIcon from "@/assets/chevron-left.svg";
 
-export default function BreedImagesPage({ params }: { params: Promise<{ breed: string }> }) {
+const fetcher = (url: string) => fetch(url).then((res) => res.json());
+
+export default function BreedImagesPage({
+  params,
+}: {
+  params: Promise<{ breed: string }>;
+}) {
   const router = useRouter();
   const [modalIndex, setModalIndex] = useState<number | null>(null);
 
-  const { breed } = React.use(params)
+  const { breed } = React.use(params);
 
   const { data, isLoading } = useSWR(
     `https://dog.ceo/api/breed/${breed}/images/random/50`,
     fetcher,
     {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false,
+      revalidateOnFocus: false,
+      revalidateOnReconnect: false,
     }
   );
   const images: string[] = data?.message || [];
 
   return (
-    <main className="max-w-4xl mx-auto py-8 px-4">
+    <main className="max-w-4xl mx-auto p-4">
       {/* 返回按鈕 */}
-      <button className="mb-4 text-blue-600" onClick={() => router.back()}>返回</button>
-      {/* 標題 */}
-      <h1 className="text-2xl font-bold mb-4">{decodeURIComponent(breed)} 的圖片</h1>
+      <div className="w-full flex mb-4">
+        <button className="ml-0" onClick={() => router.back()}>
+          <Image src={ChevronLeftIcon} alt="返回" width={24} height={24} />
+        </button>
+        {/* 標題 */}
+        <h1 className="m-auto text-center font-bold" tabIndex={0}>
+          {decodeURIComponent(breed)}
+        </h1>
+      </div>
       {/* 圖片清單元件 */}
       <BreedImages
         images={images}
@@ -46,4 +59,4 @@ export default function BreedImagesPage({ params }: { params: Promise<{ breed: s
       )}
     </main>
   );
-} 
+}

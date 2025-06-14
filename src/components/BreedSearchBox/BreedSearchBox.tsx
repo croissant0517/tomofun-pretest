@@ -1,8 +1,8 @@
 import React from "react";
 import Image from "next/image";
 
+import ClearIcon from "@/assets/close.svg";
 import SearchIcon from "./search.svg";
-import ClearIcon from "./close.svg";
 
 interface BreedSearchBoxProps {
   value: string;

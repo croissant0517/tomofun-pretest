@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import BreedSearchBox from "@/components/BreedSearchBox/BreedSearchBox";
-import BreedList from "@/components/BreedList";
+import BreedList from "@/components/BreedList/BreedList";
 
 const fetcher = (url: string) => fetch(url).then((res) => res.json());
 
