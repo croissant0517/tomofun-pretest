@@ -63,7 +63,7 @@ export default function BreedImages({
                   className="rounded shadow cursor-pointer hover:scale-105 transition w-full aspect-square object-cover"
                   onClick={() => onImageClick(virtualItem.index)}
                   priority={virtualItem.index <= rowVirtualizer.getTotalSize()}
-                  quality={50}
+                  quality={20}
                 />
               ))}
             </div>

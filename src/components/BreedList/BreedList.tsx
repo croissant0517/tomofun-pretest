@@ -88,7 +88,7 @@ const BreedItem = ({
           alt={breed}
           width={60}
           height={60}
-          quality={50}
+          quality={20}
           className="w-15 h-15 rounded-full object-cover"
         />
       )}
