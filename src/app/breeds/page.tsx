@@ -16,6 +16,7 @@ export default function BreedsPage() {
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      revalidateIfStale: false,
     }
   );
   const [search, setSearch] = useState("");

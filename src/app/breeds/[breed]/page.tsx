@@ -1,11 +1,19 @@
 "use client";
 
 import React, { useState } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import useSWR from "swr";
 import BreedImages from "@/components/BreedImages/BreedImages";
-import CarouselModal from "@/components/CarouselModal/CarouselModal";
+
+const CarouselModal = dynamic(
+  () => import("@/components/CarouselModal/CarouselModal"),
+  {
+    ssr: false,
+    loading: () => <div>Loading...</div>,
+  }
+);
 
 import ChevronLeftIcon from "@/assets/chevron-left.svg";
 
@@ -27,6 +35,7 @@ export default function BreedImagesPage({
     {
       revalidateOnFocus: false,
       revalidateOnReconnect: false,
+      revalidateIfStale: false,
     }
   );
   const images: string[] = data?.message || [];

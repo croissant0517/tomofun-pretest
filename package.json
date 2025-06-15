@@ -6,9 +6,11 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "analyze": "ANALYZE=true next build"
   },
   "dependencies": {
+    "@tanstack/react-virtual": "^3.13.10",
     "@types/jest": "^29.5.14",
     "jest": "^30.0.0",
     "next": "15.3.3",
@@ -17,6 +19,7 @@
     "swr": "^2.3.3"
   },
   "devDependencies": {
+    "@next/bundle-analyzer": "^15.3.3",
     "@eslint/eslintrc": "^3",
     "@svgr/webpack": "^8.1.0",
     "@tailwindcss/postcss": "^4",
