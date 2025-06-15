@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 
 import ChevronLeftIcon from "./chevron-left.svg";
@@ -19,21 +19,7 @@ export default function CarouselModal({
   const [index, setIndex] = useState(initialIndex);
   const [animating, setAnimating] = useState(false);
 
-  useEffect(() => {
-    setIndex(initialIndex);
-  }, [initialIndex]);
-
-  useEffect(() => {
-    const onKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft") handlePrev();
-      if (e.key === "ArrowRight") handleNext();
-    };
-    window.addEventListener("keydown", onKeyDown);
-    return () => window.removeEventListener("keydown", onKeyDown);
-  });
-
-  const handlePrev = () => {
+  const handlePrev = useCallback(() => {
     if (index > 0 && !animating) {
       if (typeof document.startViewTransition === "function") {
         setAnimating(true);
@@ -49,9 +35,9 @@ export default function CarouselModal({
         setIndex((i) => i - 1);
       }
     }
-  };
+  }, [animating, index]);
 
-  const handleNext = () => {
+  const handleNext = useCallback(() => {
     if (index < images.length - 1 && !animating) {
       if (typeof document.startViewTransition === "function") {
         setAnimating(true);
@@ -67,7 +53,8 @@ export default function CarouselModal({
         setIndex((i) => i + 1);
       }
     }
-  };
+  }, [animating, index, images.length]);
+
   const handleClose = () => {
     onClose();
   };
@@ -75,6 +62,22 @@ export default function CarouselModal({
   const handleBackdrop = (e: React.MouseEvent) => {
     if (e.target === e.currentTarget) onClose();
   };
+
+  useEffect(() => {
+    setIndex(initialIndex);
+  }, [initialIndex]);
+
+  useEffect(() => {
+    console.log("useEffect");
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") handlePrev();
+      if (e.key === "ArrowRight") handleNext();
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [handleNext, handlePrev, onClose]);
 
   return (
     <div
