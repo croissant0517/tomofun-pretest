@@ -25,11 +25,12 @@ export default function BreedImages({
     overscan: 1,
   });
 
-  if (loading) {
-    return <div className="text-gray-500">圖片載入中...</div>;
-  }
-  if (images.length === 0) {
-    return <div className="text-gray-500">查無圖片</div>;
+  if (loading || images.length === 0) {
+    return (
+      <div className="text-gray-500 h-full flex-1 flex items-center justify-center">
+        {loading ? "載入中..." : "查無圖片"}
+      </div>
+    );
   }
 
   return (

@@ -11,13 +11,13 @@ interface CarouselModalProps {
   onClose: () => void;
 }
 
-const CarouselModal = ({
+export default function CarouselModal({
   images,
   initialIndex,
   onClose,
-}: CarouselModalProps) => {
+}: CarouselModalProps) {
   const [index, setIndex] = useState(initialIndex);
-  const [animating, setAnimating] = useState<"left" | "right" | null>(null);
+  const [animating, setAnimating] = useState(false);
 
   useEffect(() => {
     setIndex(initialIndex);
@@ -35,13 +35,15 @@ const CarouselModal = ({
 
   const handlePrev = () => {
     if (index > 0 && !animating) {
-      setAnimating("left");
       if (typeof document.startViewTransition === "function") {
-        const { finished } = document.startViewTransition(() => {
+        setAnimating(true);
+        document.documentElement.classList.add("slide-prev");
+        const transition = document.startViewTransition(() => {
           setIndex((i) => i - 1);
         });
-        finished.then(() => {
-          setAnimating(null);
+        transition.finished.finally(() => {
+          setAnimating(false);
+          document.documentElement.classList.remove("slide-prev");
         });
       } else {
         setIndex((i) => i - 1);
@@ -51,20 +53,21 @@ const CarouselModal = ({
 
   const handleNext = () => {
     if (index < images.length - 1 && !animating) {
-      setAnimating("right");
       if (typeof document.startViewTransition === "function") {
-        const { finished } = document.startViewTransition(() => {
+        setAnimating(true);
+        document.documentElement.classList.add("slide-next");
+        const transition = document.startViewTransition(() => {
           setIndex((i) => i + 1);
         });
-        finished.then(() => {
-          setAnimating(null);
+        transition.finished.finally(() => {
+          setAnimating(false);
+          document.documentElement.classList.remove("slide-next");
         });
       } else {
         setIndex((i) => i + 1);
       }
     }
   };
-
   const handleClose = () => {
     onClose();
   };
@@ -75,7 +78,7 @@ const CarouselModal = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70"
+      className={`fixed inset-0 z-50 flex flex-col items-center justify-center bg-black/70`}
       onClick={handleBackdrop}
     >
       <button
@@ -97,9 +100,10 @@ const CarouselModal = ({
           </button>
           <div className="relative flex-1 aspect-square flex items-center justify-center overflow-hidden">
             <Image
+              style={{ viewTransitionName: "carousel-image" }}
               src={images[index]}
               alt="dog"
-              className={`rounded shadow transition-transform duration-400 object-cover`}
+              className={`rounded shadow object-cover`}
               fill
             />
           </div>
@@ -118,6 +122,4 @@ const CarouselModal = ({
       </div>
     </div>
   );
-};
-
-export default CarouselModal;
+}

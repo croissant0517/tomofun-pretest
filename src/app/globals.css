@@ -19,6 +19,52 @@
   }
 }
 
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-out {
+  to {
+    opacity: 0;
+  }
+  from {
+    opacity: 1;
+  }
+}
+
+@keyframes slide-from-right {
+  from {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-left {
+  to {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-from-left {
+  from {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+}
+
+@keyframes slide-to-right {
+  to {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+}
+
 html {
   scroll-behavior: smooth;
   scrollbar-width: none;
@@ -39,4 +85,28 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 1. 預設的淡入淡出 (用於不支援或沒有方向時) */
+::view-transition-old(carousel-image) {
+  animation: fade-out 0.3s ease-out forwards;
+}
+::view-transition-new(carousel-image) {
+  animation: fade-in 0.3s ease-in forwards;
+}
+
+/* 2. 往下一張 (舊的往左, 新的從右) */
+.slide-next::view-transition-old(carousel-image) {
+  animation: slide-to-left 0.3s ease-out forwards;
+}
+.slide-next::view-transition-new(carousel-image) {
+  animation: slide-from-right 0.3s ease-in forwards;
+}
+
+/* 3. 往上一張 (舊的往右, 新的從左) */
+.slide-prev::view-transition-old(carousel-image) {
+  animation: slide-to-right 0.3s ease-out forwards;
+}
+.slide-prev::view-transition-new(carousel-image) {
+  animation: slide-from-left 0.3s ease-in forwards;
 }

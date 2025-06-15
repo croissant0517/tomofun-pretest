@@ -43,8 +43,8 @@ export default function BreedImagesPage({
   return (
     <main className="max-w-4xl mx-auto p-4">
       {/* 返回按鈕 */}
-      <div className="w-full flex mb-4">
-        <button className="ml-0" onClick={() => router.back()}>
+      <div className="relative w-full flex mb-4">
+        <button className="absolute left-0" onClick={() => router.back()}>
           <Image src={ChevronLeftIcon} alt="返回" width={24} height={24} />
         </button>
         {/* 標題 */}
